@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "topovae"
+version = "0.1.0"
+description = "Variational autoencoders with a prescribed latent topology"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [{ name = "J.S. van Hulst", email = "j.s.v.hulst@tue.nl" }]
+keywords = ["variational-autoencoder", "topology", "representation-learning"]
+
+# The library itself needs only these.  Everything to do with drawing figures
+# or generating the paper's datasets is an extra, so `import topovae` stays
+# cheap and does not pull in matplotlib.
+dependencies = [
+    "numpy>=1.24",
+    "torch>=2.0",
+]
+
+[project.optional-dependencies]
+# Reproducing the paper's figures.
+experiments = [
+    "matplotlib>=3.7",
+    "pandas>=2.0",
+    "scipy>=1.10",
+    "torchvision>=0.15",
+]
+# The MNIST figures embed a Gaussian latent space with UMAP; nothing else
+# needs it, so it is separate from `experiments`.
+image = [
+    "umap-learn>=0.5",
+    "scikit-learn>=1.3",
+]
+all = [
+    "topovae[experiments,image]",
+]
+
+[tool.setuptools]
+packages = ["topovae", "experiments", "experiments.synthetic", "experiments.mnist"]
